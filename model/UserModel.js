@@ -25,19 +25,19 @@ const userModel =
                 id:10,
                 firstName:"Prue",
                 lastName:"Pope",
-                email : "prue@charmed.com",
+                email : "pru@cd.com",
             },
             {
                 id:11,
                 firstName:"Dianna",
                 lastName:"Prince",
-                email : "wonder@woman.com",
+                email : "w@woman.com",
             },
             {
                 id:12,
                 firstName:"Prue",
                 lastName:"Pope",
-                email : "prue@charmed.com",
+                email : "p@charmed.com",
             },
             {
                 id:13,
@@ -47,7 +47,6 @@ const userModel =
             }
             
         ]
-
         ,
 
         getAllUsers()
@@ -58,15 +57,57 @@ const userModel =
 
         getAUser(id)
         {
-            return this.fakeDB.find(user=>user.id === id)
+            return this.fakeDB.find(user => user.id === id)
+
         },
 
-        createAUser(product)
+        createAUser(reqBody)
+        {
+            const checkEmail = this.fakeDB.find(user => user.email === reqBody.email)
+
+            console.log (checkEmail)
+
+            if(checkEmail === undefined) 
+            {
+                this.fakeDB.push(reqBody);
+            }
+            else
+            {
+                return true // duplicate email found re: Throw error
+            }
+
+        },
+
+        updateUserDetails(reqBody, Id)
         {
 
-                this.fakeDB.push(product);
-        }
+            const checkEmail = this.fakeDB.find(user => user.email === reqBody.email)
 
+            const index = this.fakeDB.findIndex(arrObj => arrObj.id === Id);  
+
+
+            console.log (checkEmail)
+
+            if(checkEmail === undefined ) 
+            {
+                this.fakeDB.splice(index, 1, reqBody)
+                
+                return false //no duplicate email found
+            }
+            else
+            {
+                return true // duplicate email found re: Throw error
+            }
+        
+        },
+
+        deleteUser(reqBodyId)
+        {
+            const index = this.fakeDB.findIndex(arrObj => arrObj.id === reqBodyId);  
+            
+            this.fakeDB.splice(index, 1)
+
+        }
 }
 
 
